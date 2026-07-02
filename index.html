@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CobWebOS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: url('/image.png') center/cover no-repeat;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Oswald', sans-serif;
+      color: #f5f5f5
+    }
+
+    @keyframes popup {
+      from {
+        opacity: 0;
+        transform: scale(.95)
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1)
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="bootScreen"
+    style="position:fixed;inset:0;background:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999">
+    <h1>CobWebOS</h1>
+    <p>Loading...</p>
+    <div style="width:220px;height:8px;background:#222;border-radius:99px;overflow:hidden">
+      <div id="bootBar" style="height:100%;width:0;background:#fff"></div>
+    </div>
+  </div>
+
+  <div
+    style="position:fixed;top:0;left:0;width:100%;height:48px;background:rgba(8,8,8,.75);backdrop-filter:blur(18px);display:flex;align-items:center;padding:0 20px;box-sizing:border-box;gap:10px;z-index:100">
+    <div id="welcomeopen" style="background:rgba(18,18,18,.8);padding:4px 12px;border-radius:20px;cursor:pointer">
+      CobWebOS</div>
+    <div id="aboutopen" style="background:rgba(18,18,18,.8);padding:4px 12px;border-radius:20px;cursor:pointer">Spider's
+      Lair</div>
+    <div id="todoopen" style="background:rgba(18,18,18,.8);padding:4px 12px;border-radius:20px;cursor:pointer">Todo
+    </div>
+    <div id="weatheropen" style="background:rgba(18,18,18,.8);padding:4px 12px;border-radius:20px;cursor:pointer">
+      Weather</div>
+    <div
+      style="position:absolute;left:50%;transform:translateX(-50%);background:rgba(18,18,18,.8);padding:4px 16px;border-radius:20px">
+      CobWebOS</div>
+    <div id="timeElement" style="margin-left:auto;background:rgba(18,18,18,.8);padding:4px 12px;border-radius:20px">
+    </div>
+  </div>
+
+  <div id="welcome" class="window" style="top:150px;left:150px">
+    <div id="welcomeheader" class="header">
+      <div id="welcomeclose" class="closebtn"></div>
+    </div>
+    <img src="/spider.png" width="48" height="48" style="border-radius:50%">
+    <h1>CobWebOS</h1>
+    <p>Welcome to CobWebOS.<br>A desktop inspired by darkness, silence and spider webs.</p>
+  </div>
+
+  <div id="about" class="window" style="top:220px;left:350px;display:none">
+    <div id="aboutheader" class="header">
+      <div id="aboutclose" class="closebtn"></div>
+    </div>
+    <h1>Spider's Lair</h1>
+    <p>Spider's Lair
+    
+    Hey! I'm Churuu.
+    
+    CobWebOS is just a fun project I'm making to practice HTML, CSS and JavaScript.
+    
+    It's still a work in progress, so expect bugs and new features. <br>
+      "With Great Power Comes Great Responsibility" is my motto. I am a web developer and a tech enthusiast. I love to explore new technologies and create something new. I am always ready to learn and share my knowledge with others. Anyday yk.
+    </p>
+  </div>
+
+  <div id="todo" class="window" style="top:300px;left:600px;display:none">
+    <div id="todoheader" class="header">
+      <div id="todoclose" class="closebtn"></div>
+    </div>
+    <h1>Todo</h1>
+    <input id="taskInput" placeholder="New task..."
+      style="width:70%;padding:8px;background:#181818;color:#f5f5f5;border:1px solid rgba(255,255,255,.1)">
+    <button onclick="addTask()"
+      style="padding:8px;background:#2a2a2a;color:#f5f5f5;border:1px solid rgba(255,255,255,.08)">Add</button>
+    <ul id="taskList"></ul>
+  </div>
+
+  <div id="weather" class="window" style="top:250px;left:850px;display:none">
+    <div id="weatherheader" class="header">
+      <div id="weatherclose" class="closebtn"></div>
+    </div>
+    <h1>Weather</h1>
+    <input id="cityInput" placeholder="Enter city..."
+      style="width:70%;padding:8px;background:#181818;color:#f5f5f5;border:1px solid rgba(255,255,255,.1)">
+    <button onclick="getWeather()"
+      style="padding:8px;background:#2a2a2a;color:#f5f5f5;border:1px solid rgba(255,255,255,.08)">Check</button>
+    <div id="weatherResult" style="margin-top:15px"></div>
+  </div>
+
+  <script>
+    function updateTime() {
+        var now = new Date();
+
+        var date = now.toLocaleDateString("en-IN");
+        var time = now.toLocaleTimeString("en-IN", {
+          hour: "2-digit",
+          minute: "2-digit"
+        });
+
+        document.getElementById("timeElement").innerHTML = date + " " + time;
+      }
+
+      updateTime();
+      setInterval(updateTime, 1000);
+    let progress = 0, b = setInterval(() => { progress += 2; bootBar.style.width = progress + "%"; if (progress >= 100) { clearInterval(b); bootScreen.style.display = "none" } }, 40);
+    document.querySelectorAll(".window").forEach(w => {
+        w.style.position = "absolute";
+        w.style.width = "320px";
+        w.style.background = "rgba(20,20,20,0.82)";
+        w.style.border = "1px solid rgba(255,255,255,0.08)";
+        w.style.borderRadius = "18px";
+        w.style.padding = "14px";
+        w.style.backdropFilter = "blur(18px)";
+        w.style.boxShadow = "0 15px 35px rgba(0,0,0,0.6)";
+    });
+    document.querySelectorAll(".header").forEach(h => { h.style.display = "flex"; h.style.cursor = "grab"; h.style.marginBottom = "10px"; });
+    document.querySelectorAll(".closebtn").forEach(c => { Object.assign(c.style, { width: "14px", height: "14px", background: "#666", borderRadius: "50%", cursor: "pointer" }); });
+    function openWindow(id) { 
+      
+      let w = document.getElementById(id); w.style.display = "block"; w.style.animation = "popup .2s ease"; 
+    
+    }
+    function closeWindow(id) { 
+      document.getElementById(id).style.display = "none"; 
+    }
+    ["welcome", "about", "todo", "weather"].forEach(id => { document.getElementById(id + "open").onclick = () => openWindow(id); document.getElementById(id + "close").onclick = () => closeWindow(id); drag(document.getElementById(id)); });
+    function drag(el) 
+    { let x = 0, y = 0, a = 0, b = 0; el.querySelector(".header").onmousedown = e => { e.preventDefault(); a = e.clientX; b = e.clientY; document.onmousemove = m; document.onmouseup = () => { document.onmousemove = null } }; function m(e) { x = a - e.clientX; y = b - e.clientY; a = e.clientX; b = e.clientY; el.style.top = (el.offsetTop - y) + "px"; el.style.left = (el.offsetLeft - x) + "px"; } }
+    function addTask() 
+    { let i = taskInput; if (!i.value.trim()) return; let li = document.createElement("li"); li.textContent = i.value; li.onclick = () => { li.style.textDecoration = "line-through"; li.style.opacity = .6 }; taskList.appendChild(li); i.value = "" }
+    async function getWeather() { if (!cityInput.value.trim()) return; weatherResult.innerHTML = "Loading..."; try { let d = await (await fetch("https://wttr.in/" + cityInput.value + "?format=j1")).json(); let c = d.current_condition[0]; weatherResult.innerHTML = `City: ${cityInput.value}<br>Temp: ${c.temp_C}°C<br>Condition: ${c.weatherDesc[0].value}<br>Humidity: ${c.humidity}%<br>Wind: ${c.windspeedKmph} km/h`; } catch { weatherResult.textContent = "Could not fetch weather."; } }
+  </script>
+</body>
+
+</html>
