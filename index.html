@@ -52,6 +52,9 @@
     </div>
     <div id="weatheropen" style="background:rgba(18,18,18,.8);padding:4px 12px;border-radius:20px;cursor:pointer">
       Weather</div>
+      <div id="terminalopen" style="background:rgba(18,18,18,.8);padding:4px 12px;border-radius:20px;cursor:pointer">
+        Terminal
+      </div>
     <div
       style="position:absolute;left:50%;transform:translateX(-50%);background:rgba(18,18,18,.8);padding:4px 16px;border-radius:20px">
       CobWebOS</div>
@@ -74,13 +77,15 @@
     </div>
     <h1>Spider's Lair</h1>
     <p>Spider's Lair
-    
-    Hey! I'm Churuu.
-    
-    CobWebOS is just a fun project I'm making to practice HTML, CSS and JavaScript.
-    
-    It's still a work in progress, so expect bugs and new features. <br>
-      "With Great Power Comes Great Responsibility" is my motto. I am a web developer and a tech enthusiast. I love to explore new technologies and create something new. I am always ready to learn and share my knowledge with others. Anyday yk.
+
+      Hey! I'm Churuu.
+
+      CobWebOS is just a fun project I'm making to practice HTML, CSS and JavaScript.
+
+      It's still a work in progress, so expect bugs and new features. <br>
+      "With Great Power Comes Great Responsibility" is my motto. I am a web developer and a tech enthusiast. I love to
+      explore new technologies and create something new. I am always ready to learn and share my knowledge with others.
+      Anyday yk.
     </p>
   </div>
 
@@ -105,52 +110,171 @@
       style="width:70%;padding:8px;background:#181818;color:#f5f5f5;border:1px solid rgba(255,255,255,.1)">
     <button onclick="getWeather()"
       style="padding:8px;background:#2a2a2a;color:#f5f5f5;border:1px solid rgba(255,255,255,.08)">Check</button>
-    <div id="weatherResult" style="margin-top:15px"></div>
+    <div id="weatherResult" style="margin-top:15px">
+  </div>
+  </div>
+    <div id="terminal" class="window" style="top:180px;left:450px;display:none;width:700px;height:420px;">
+    
+      <div id="terminalheader" class="header">
+        <div id="terminalclose" class="closebtn"></div>
+      </div>
+    
+      <div id="terminalScreen" style="
+    background:#090909;
+    height:340px;
+    overflow-y:auto;
+overflow-x:hidden;
+box-sizing:border-box;
+    padding:15px;
+    font-family:Consolas,monospace;
+    font-size:16px;
+    color:#ddd;
+    border-radius:10px;
+    ">
+    
+        <div id="terminalOutput" style="white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;">
+          CobWebOS Terminal
+    
+          Last login: Today
+    
+        </div>
+    
+        <div style="display:flex;align-items:center;width:100%;">
+    
+          <span style="color:#61afef;">root@churu</span>
+          <span style="color:#fff;">:~#&nbsp;</span>
+    
+          <input id="terminalInput" autocomplete="off" spellcheck="false" style="
+    background:transparent;
+border:none;
+outline:none;
+color:white;
+font:inherit;
+flex:1;
+min-width:0;
+width:100%;
+box-sizing:border-box;
+    ">
+    
+        </div>
+    
+      </div>
+    
+    </div>
   </div>
 
   <script>
     function updateTime() {
-        var now = new Date();
+      var now = new Date();
 
-        var date = now.toLocaleDateString("en-IN");
-        var time = now.toLocaleTimeString("en-IN", {
-          hour: "2-digit",
-          minute: "2-digit"
-        });
+      var date = now.toLocaleDateString("en-IN");
+      var time = now.toLocaleTimeString("en-IN", {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
 
-        document.getElementById("timeElement").innerHTML = date + " " + time;
-      }
+      document.getElementById("timeElement").innerHTML = date + " " + time;
+    }
 
-      updateTime();
-      setInterval(updateTime, 1000);
+    updateTime();
+    setInterval(updateTime, 1000);
     let progress = 0, b = setInterval(() => { progress += 2; bootBar.style.width = progress + "%"; if (progress >= 100) { clearInterval(b); bootScreen.style.display = "none" } }, 40);
     document.querySelectorAll(".window").forEach(w => {
-        w.style.position = "absolute";
-        w.style.width = "320px";
-        w.style.background = "rgba(20,20,20,0.82)";
-        w.style.border = "1px solid rgba(255,255,255,0.08)";
-        w.style.borderRadius = "18px";
-        w.style.padding = "14px";
-        w.style.backdropFilter = "blur(18px)";
-        w.style.boxShadow = "0 15px 35px rgba(0,0,0,0.6)";
+      w.style.position = "absolute";
+      w.style.width = "320px";
+      w.style.background = "rgba(20,20,20,0.82)";
+      w.style.border = "1px solid rgba(255,255,255,0.08)";
+      w.style.borderRadius = "18px";
+      w.style.padding = "14px";
+      w.style.backdropFilter = "blur(18px)";
+      w.style.boxShadow = "0 15px 35px rgba(0,0,0,0.6)";
     });
     document.querySelectorAll(".header").forEach(h => { h.style.display = "flex"; h.style.cursor = "grab"; h.style.marginBottom = "10px"; });
     document.querySelectorAll(".closebtn").forEach(c => { Object.assign(c.style, { width: "14px", height: "14px", background: "#666", borderRadius: "50%", cursor: "pointer" }); });
-    function openWindow(id) { 
-      
-      let w = document.getElementById(id); w.style.display = "block"; w.style.animation = "popup .2s ease"; 
-    
+   function openWindow(id) {
+
+      let w = document.getElementById(id);
+
+      w.style.display = "block";
+      w.style.animation = "popup .2s ease";
+
+      if (id === "terminal") {
+        document.getElementById("terminalInput").focus();
+      }
+
     }
-    function closeWindow(id) { 
-      document.getElementById(id).style.display = "none"; 
+    function closeWindow(id) {
+      document.getElementById(id).style.display = "none";
     }
-    ["welcome", "about", "todo", "weather"].forEach(id => { document.getElementById(id + "open").onclick = () => openWindow(id); document.getElementById(id + "close").onclick = () => closeWindow(id); drag(document.getElementById(id)); });
-    function drag(el) 
-    { let x = 0, y = 0, a = 0, b = 0; el.querySelector(".header").onmousedown = e => { e.preventDefault(); a = e.clientX; b = e.clientY; document.onmousemove = m; document.onmouseup = () => { document.onmousemove = null } }; function m(e) { x = a - e.clientX; y = b - e.clientY; a = e.clientX; b = e.clientY; el.style.top = (el.offsetTop - y) + "px"; el.style.left = (el.offsetLeft - x) + "px"; } }
-    function addTask() 
-    { let i = taskInput; if (!i.value.trim()) return; let li = document.createElement("li"); li.textContent = i.value; li.onclick = () => { li.style.textDecoration = "line-through"; li.style.opacity = .6 }; taskList.appendChild(li); i.value = "" }
+   ["welcome", "about", "todo", "weather", "terminal"].forEach(id => {
+      document.getElementById(id + "open").onclick = () => openWindow(id);
+      document.getElementById(id + "close").onclick = () => closeWindow(id);
+      drag(document.getElementById(id));
+    });
+    function drag(el) { let x = 0, y = 0, a = 0, b = 0; el.querySelector(".header").onmousedown = e => { e.preventDefault(); a = e.clientX; b = e.clientY; document.onmousemove = m; document.onmouseup = () => { document.onmousemove = null } }; function m(e) { x = a - e.clientX; y = b - e.clientY; a = e.clientX; b = e.clientY; el.style.top = (el.offsetTop - y) + "px"; el.style.left = (el.offsetLeft - x) + "px"; } }
+    function addTask() { let i = taskInput; if (!i.value.trim()) return; let li = document.createElement("li"); li.textContent = i.value; li.onclick = () => { li.style.textDecoration = "line-through"; li.style.opacity = .6 }; taskList.appendChild(li); i.value = "" }
     async function getWeather() { if (!cityInput.value.trim()) return; weatherResult.innerHTML = "Loading..."; try { let d = await (await fetch("https://wttr.in/" + cityInput.value + "?format=j1")).json(); let c = d.current_condition[0]; weatherResult.innerHTML = `City: ${cityInput.value}<br>Temp: ${c.temp_C}°C<br>Condition: ${c.weatherDesc[0].value}<br>Humidity: ${c.humidity}%<br>Wind: ${c.windspeedKmph} km/h`; } catch { weatherResult.textContent = "Could not fetch weather."; } }
-  </script>
+  
+  document.getElementById("terminalScreen").onclick = () => {
+      document.getElementById("terminalInput").focus();
+    };
+    const terminalInput = document.getElementById("terminalInput");
+      const terminalOutput = document.getElementById("terminalOutput");
+      terminalInput.addEventListener("keydown", function (e) {
+
+          if (e.key !== "Enter") return;
+
+          let cmd = this.value.trim();
+
+          terminalOutput.innerHTML += `
+<div>
+<span style="color:#61afef;">root@churu</span>:~# ${cmd}
+</div>
+`;
+
+          executeCommand(cmd);
+
+          this.value = "";
+
+          terminalScreen.scrollTop = terminalScreen.scrollHeight;
+
+        });
+        function print(text) {
+
+            terminalOutput.innerHTML += `<div>${text}</div>`;
+
+            terminalScreen.scrollTop = terminalScreen.scrollHeight;
+
+          }
+          function executeCommand(cmd) {
+
+              switch (cmd) {
+
+                case "help":
+                  print("help");
+                  print("clear");
+                  print("date");
+                  print("whoami");
+                  break;
+
+                case "clear":
+                  terminalOutput.innerHTML = "";
+                  break;
+
+                case "date":
+                  print(new Date().toString());
+                  break;
+
+                case "whoami":
+                  print("root");
+                  break;
+
+                default:
+                  print("Command not found");
+              }
+
+            }
+    </script>
 </body>
 
 </html>
