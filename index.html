@@ -180,7 +180,7 @@ box-sizing:border-box;
     setInterval(updateTime, 1000);
     let progress = 0, b = setInterval(() => { progress += 2; bootBar.style.width = progress + "%"; if (progress >= 100) { clearInterval(b); bootScreen.style.display = "none" } }, 40);
     document.querySelectorAll(".window").forEach(w => {
-      w.style.position = "absolute";
+        w.style.position = "absolute";
       w.style.width = "320px";
       w.style.background = "rgba(20,20,20,0.82)";
       w.style.border = "1px solid rgba(255,255,255,0.08)";
